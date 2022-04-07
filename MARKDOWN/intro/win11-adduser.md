@@ -2,93 +2,63 @@
 title: Windows 11での新規アカウント作成
 ---
 
-# Windows 10での新規アカウント作成
+# Windows 11での新規アカウント作成
 
-このページは、アカウント名（ユーザー名）に日本語などが含まれているために Vagrant のインストール時にトラブルが発生した方向けに、Windows 10での新しいアカウント作成手順を解説したものです。
+このページは、アカウント名（ユーザー名）に日本語などが含まれているために Docker のインストール時などにトラブルが発生した方向けに、Windows 11 の新しいアカウント作成手順を解説したものです。
 
 ### 新規アカウントの作成
 
-#### 1. 設定画面を開く
+##### 1. 設定画面を開く
 
-スタートメニューを右クリックし、表示されたメニューの中から 「設定」をクリックします。
+スタートメニューをクリックし、表示されたメニューの中から 「設定」をクリックします。
 
-<div class="image-with-caption">
-  <img src="image/win10-adduser-01.png">
-  <span class="imagecaption screenshot"></span>
-</div>
-
+![設定を開く](./image/win11-adduser-01.png) 
 
 #### 2. アカウント設定画面を開く
 
 「アカウント」をクリックします。（なお、この画面では左下に表示されていますが、ウィンドウのサイズによって「アカウント」が表示される位置は異なる場合があります。）
-<div class="image-with-caption">
-  <img src="image/win10-adduser-02.png">
-  <span class="imagecaption screenshot"></span>
-</div>
+アカウント設定の画面に切り替わったら、右側のメニューから 「家族とその他のユーザー」をクリックします。
+
+![家族とその他のユーザーをクリック](./image/win11-adduser-02.png)
 
 #### 3. ユーザを作成する
 
-アカウント設定の画面に切り替わったら、左側のメニューから 「他のユーザー」をクリックします。
+
 続いて、「その他のユーザーをこの PC に追加」をクリックします。
 
-<div class="image-with-caption">
-  <img src="image/win10-adduser-03.png">
-  <span class="imagecaption screenshot"></span>
-</div>
+![その他のユーザをこのPCに追加をクリック](./image/win11-adduser-03.png)
 
 新しく開いたウィンドウで「**このユーザーのサインイン情報がありません**」をクリックします。
 
-<div class="image-with-caption">
-  <img src="image/win10-adduser-04.png">
-  <span class="imagecaption screenshot"></span>
-</div>
-
+![このユーザーのサインイン情報がありませんをクリック](./image/win11-adduser-04.png)
 
 「**Microsoftアカウントを持たないユーザーを追加する**」をクリックします。
 
-<div class="image-with-caption">
-  <img src="image/win10-adduser-05.png">
-  <span class="imagecaption screenshot"></span>
-</div>
+![Microsoftアカウントを持たないユーザーを追加するをクリック](./image/win11-adduser-05.png)
 
 「このPCを使うのはだれですか？」の欄に**すべて半角英数字**で新しいアカウントの名前を入力します。
 また、新しいアカウントで使うパスワードを入力します。
 
-<div class="image-with-caption">
-  <img src="image/win10-adduser-06.png">
-  <span class="imagecaption screenshot"></span>
-</div>
+![半角英数字で新しいアカウント名を入力](./image/win11-adduser-06.png)
 
 続いて、スクロールして「パスワードを忘れた場合」の欄には、パスワードを忘れた場合の質問を入力します。<br>
 以下の画像はあくまで記入例なので、自分がきちんと思い出せるものを入力してください。
 入力が完了したら、「次へ」をクリックします。
 
-<div class="image-with-caption">
-  <img src="image/win10-adduser-07.png">
-  <span class="imagecaption screenshot"></span>
-</div>
+![パスワードを忘れた場合の質問を入力](./image/win11-adduser-07.png)
 
 元の画面に戻ったら、新しいアカウントが表示されているはずです。<br>
 このアカウントの名前の部分をクリックしてください。すると、「**アカウントの種類を変更**」というボタンが出てくるので、そのボタンをクリックします。
 
-<div class="image-with-caption">
-  <img src="image/win10-adduser-08.png">
-  <span class="imagecaption screenshot"></span>
-</div>
+![アカウントの種類を変更をクリック](./image/win11-adduser-08.png)
 
 アカウントの種類を「**管理者**」に変更し、「**OK**」をクリックします。
 
-<div class="image-with-caption">
-  <img src="image/win10-adduser-09.png">
-  <span class="imagecaption screenshot"></span>
-</div>
+![アカウントの種類を管理者にする](./image/win11-adduser-09.png)
 
 「**管理者 - ローカルアカウント**」となっていることを確認したら、設定画面を閉じます。
 
-<div class="image-with-caption">
-  <img src="image/win10-adduser-10.png">
-  <span class="imagecaption screenshot"></span>
-</div>
+![設定画面を閉じる](./image/win11-adduser-10.png)
 
 ### 新しいアカウントへのログイン
 
@@ -99,11 +69,7 @@ title: Windows 11での新規アカウント作成
 すると、パソコン起動時と同じような画面が現れるので、左下に表示される新しく作成したアカウントをクリックし、パスワードを入力してログインします。<br>
 以後、入門コースはそのアカウントで学習を進めてください。
 
-<div class="image-with-caption">
-  <img src="image/win10-adduser-11.png">
-  <span class="imagecaption screenshot"></span>
-</div>
-
+![設定画面を閉じる](./image/win11-adduser-11.png)
 
 ### 新しいアカウントでの環境構築
 
