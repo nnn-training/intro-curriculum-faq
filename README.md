@@ -72,6 +72,8 @@ public/images/intro/a.png
 
 のように書くことで表示されます。
 
+（つまり `public/` の部分を `/faq/` に置き換えたパスを書くことで表示されます。）
+
 ## このサイトの構成
 このサイトは Next.js + TypeScript で実装されています。 
 サイトそのものの機能を改修するとき以外、Next.js や TypeScript の知識は必要ありません。
