@@ -9,6 +9,7 @@ title: Docker 関連のトラブル
 - [(1) Docker Desktop がインストールできない](#1)
 - [(2) docker-compose up -d（コンテナ起動）で失敗する](#2)
 - [(3) (winpty) docker-compose exec app bash で失敗する](#3)
+- [(4) PostgreSQL のバージョンを上げたらデータベースのコンテナの起動に失敗する](#4)
 ---
 
 ## (1) Docker Desktop がインストールできない <a id="1"></a>
@@ -179,3 +180,298 @@ Dockerfile を一度変更したことがあるにもかかわらず、`docker-c
 ### →解決方法
 
 `docker-compose up --build` 実行した後に、`(winpty) docker-compose exec app bash` を実行してみてください。
+
+
+## (4) PostgreSQL のバージョンを上げたらデータベースのコンテナの起動に失敗する <a id="4"></a>
+
+### 表記について
+
+ここでは、表記を簡単にするため、**Windows でのコマンドと Mac でのコマンドをまとめて「`(winpty) docker-compose exec app bash`」と書きます**。そのため、Windows の場合は「`winpty docker-compose exec app bash`」に、Mac の場合は「`docker-compose exec app bash`」に、それぞれ読み替えてください。
+
+また、PostgreSQL のコンテナを「db コンテナ」と呼ぶことにします。
+
+### 問題詳細
+
+db コンテナにアクセスする際や、db コンテナにアクセスするソフトウェアを使用する際にエラーが発生することがあります。例えば Sequalize を使用している場合は SequelizeHostNotFoundError が発生します。
+
+### 原因
+
+db コンテナが参照しているデータベースファイルのバージョンが古く、db コンテナの起動に失敗している可能性があります。
+
+docker-compose を使用している場合は、`docker-compose logs` でコンテナのログを確認することができます。おそらく
+
+```
+Attaching to schedule-arranger_app_1, schedule-arranger_db_1
+app_1  | Welcome to Node.js v14.15.4.
+app_1  | Type ".help" for more information.
+db_1   |
+db_1   | PostgreSQL Database directory appears to contain a database; Skipping initialization
+db_1   |
+db_1   | 20XX-XX-XX XX:XX:XX.XXX JST [1] FATAL:  データベースファイルがサーバと互換性がありません
+db_1   | 20XX-XX-XX XX:XX:XX.XXX JST [1] 詳細:  データディレクトリはPostgreSQLバージョン12で初期化されましたが、これはバージョン14.2 (Debian 14.2-1.pgdg110+1)とは互換性がありません
+```
+
+または
+
+```
+db_1   | 20XX-XX-XX XX:XX:XX.XXX JST [1] FATAL:  database files are incompatible with server
+db_1   | 20XX-XX-XX XX:XX:XX.XXX JST [1] DETAIL:  The data directory was initialized by PostgreSQL version 12, which is not compatible with this version 14.2 (Debian 14.2-1.pgdg110+1).
+```
+
+のように表示され、データベースファイルのバージョンが古いことが原因であると分かります。
+
+### →解決方法
+
+解決方法としては
+
+- データベースを作り直す
+- データベースを消さず、新しいバージョンの PostgreSQL 用にデータベースをアップグレードする
+
+などが考えられます。<br>
+前者は簡単ではありますが、**データベースの中身が失われてしまう**ことに注意してください。
+
+データベースの中身を失いたくない場合や、**Web サービスとして公開した場合**はデータベースのアップグレードをするようにしてください。
+
+#### 方法1: データベースを作り直す
+
+データベースファイルのあるディレクトリを空にしてください。次回のコンテナ立ち上げ時に再び必要なファイルが作り直され、互換性の問題は解決するはずです。
+
+Docker の volume にデータベースファイルを設置している場合は以下のようにして volume を作り直してください。
+
+まず、
+
+```
+docker-compose down
+```
+
+でコンテナを閉じます。次に
+
+```
+docker volume rm [データベースファイルのあるvolume名]
+docker volume create --name=[データベースファイルのあるvolume名]
+```
+
+でデータベース用の volume を作り直します。`[データベースファイルのあるvolume名]` は例えば `my-application-data` など、現在使っているデータベース用 volume の名前で読み替えてください。
+1行目では volume の削除を、2行目では volume の作成をしています。
+
+Volume を作り直す、またはデータベースファイルのあるディレクトリを空にしたら
+
+```
+docker-compose up -d
+(winpty) docker-compose exec app bash
+```
+
+と入力し app コンテナに再び入ります。
+コンテナに入れたら、エラーが発生したソフトウェアを再度実行してみましょう。
+実行時にエラーが起こらなければ成功です。
+
+#### 方法2: データベースをアップグレードする
+
+ここでは例として、Docker Volume 内のデータベースファイルを PostgreSQL 12 対応のものから 14 対応のものへアップグレードする方法を紹介します。Docker Volume を使用していない場合も以下と同様に dump の出力と読み込みをすることで移行できます。
+
+まず、データベースの Dockerfile を
+
+```
+FROM postgres:12
+```
+
+など、**現在のデータベースファイルと互換性のあるバージョン**に書き換えます。
+
+次に
+
+```
+docker-compose up --build -d 
+```
+
+でコンテナを立ち上げます。Dockerfile を書き換えたので `--build` オプションをつけてビルドしています。
+
+立ち上げたら、次のコマンドで **dump** を出力してください。ここでの dump とは、データベースの中身を SQL コマンドを含んだスクリプトで表したもののことを言います。dump ファイル内のスクリプトを実行することで、現在のデータベースの情報を復元することができます。
+
+```
+docker-compose exec db pg_dumpall --clean --no-role-passwords -U postgres > db.out
+```
+
+このコマンドを実行することで、現在のディレクトリにデータベースの dump である db.out が生成されます。コマンドの実行に失敗した場合は、PostgreSQL のバージョンが volume 内のデータベースファイルと互換性のないものである可能性があります。
+
+<details>
+<summary>コマンドの説明 (クリックで展開)</summary>
+
+---
+
+```
+docker-compose exec <service> <command>
+```
+
+は `<service>` コンテナに入り、`<command>` コマンドを実行するコマンドです。ここでは db コンテナに入り、`pg_dumpall` コマンドを実行しています。
+
+```
+pg_dumpall --clean --no-role-passwords -U postgres
+```
+
+はデータベースの dump を出力する PostgreSQL のコマンドです。
+
+`--clean` は移行先にデータベースが存在した場合も DROP して作り直すオプションです。
+
+`--no-role-password` はロールのパスワードを出力しないオプションです。現在使用しているソフトウェアでデータベースのパスワード認証を利用していない場合は、このオプションが必要になります。
+
+`-U` は dump するユーザを指定するオプションです。ここではユーザ `postgres` を指定しています。
+
+最後に `> db.out` で現在のディレクトリに `pg_dumpall` の出力を db.out として保存します。
+
+---
+
+</details>
+
+次にデータベースのバージョンを上げるため、一度コンテナを閉じます。
+
+```
+docker-compose down
+```
+
+db コンテナに使う Dockerfile の FROM の部分を
+
+```
+FROM postgres:14.2
+```
+
+など移行先のバージョンに書き換えます。
+
+##### volume のバックアップ
+
+今 volume 内には古いデータベースが残っているため、このままコンテナを立ち上げると db コンテナの立ち上げに失敗してしまいます。そこで、volume を一度丸ごと削除して作り直します。
+
+その前に、念のために **volume のバックアップ**を取っておきます。次のコマンドでバックアップ用の volume を作ります。ここではバックアップ用の volume 名を database-backup としています。
+
+```
+docker volume create --name=database-backup
+```
+
+次に元のデータベース volume (ここでは my-application-data とします) の中身をバックアップ volume にコピーします。
+
+Docker には volume をコピーするコマンドがないので、次のように**新たにコンテナを作ることにより**コピーします。(volume のリネームもできないため、リネームしたい場合もこの手順を踏む必要があります)
+
+次のコマンドを実行してください。
+
+```
+docker run --rm -v my-application-data:/from -v database-backup:/to alpine cp -a /from/. /to
+```
+
+これを実行することで、my-application-data の中身が database-backup にコピーされます。
+
+<details>
+<summary>コマンドの説明 (クリックで展開)</summary>
+
+---
+
+```
+docker run [options] <image> [command]
+```
+
+は指定した Docker イメージ `<image>` からコンテナを作り起動するコマンドです。`[options]` にはオプション、`[command]` にはコンテナ立ち上げ後にコンテナ内で実行するコマンドを指定します。
+
+`--rm` はコンテナ終了後にコンテナを削除するオプションです。
+
+2つの `-v` オプションでは、
+
+- コピー元の my-application-data をコンテナ内の `/from` にマウントすること
+- コピー先の database-backup を `/to` にマウントすること
+
+を指示しています。
+
+[alpine](https://hub.docker.com/_/alpine) は軽量な Linux ディストリビューションである Alpine Linux の Docker イメージです。今回はファイルコピーという単純な作業のみをするので alpine を指定しています。そして `[command]` として
+
+```
+cp -a /from/. /to
+```
+
+を指定しています。コンテナ実行後、上記コマンドにより `/from` の中身は `/to` にコピーされます。`/from` と `/to` はそれぞれ my-application-data と database-backup が対応するので、これで volume のコピーができたことになります。
+
+---
+
+</details>
+
+念のため、database-backup volume にデータがコピーされたかどうか確認してみましょう。
+
+```
+docker run --rm -v database-backup:/volume alpine ls /volume
+```
+
+以上のコマンドでバックアップ volume の中身を確認することができます。うまくコピーされていれば成功です。
+
+#### volume の消去とデータベースの読み込み
+
+さて、volume のバックアップが取れたので元の volume を作り直します。
+次のコマンドを実行してください。
+
+```
+docker volume rm my-application-data
+docker volume create --name=my-application-data
+```
+
+volume を作りなおせたらコンテナを立ち上げます。先ほど Dockerfile を書き換えたのでビルドも忘れずにしましょう。
+
+```
+docker-compose up --build -d
+```
+
+次に、データベースを新しいバージョンの PostgreSQL に読み込みます。次のコマンドを実行してください。
+
+```
+cat db.out | docker-compose exec -T db psql -f - -U postgres
+```
+
+<details>
+
+<summary>コマンドの説明 (クリックで展開)</summary>
+
+---
+
+`cat db.out` で db.out の中身を標準出力します。これをパイプ (`|`) で `docker-compose` コマンドに渡します。
+`docker-compose exec` の `-T` は標準入力を受け取るために必要なオプションです。
+
+db コンテナ内で実行する `psql` コマンドは PostgreSQL を実行するコマンドです。`-f` オプションは読み込むファイルを指定するオプションです。指定したファイル名が `-` であるとき、標準入力を受け取ります。また、`-U` オプションでは読み込むときに使用するユーザ名を指定します。
+
+---
+
+</details>
+
+これで読み込みが成功しているはずです。
+
+
+##### 実行確認
+
+最後に実際にデータベースが移行できているか確認してみましょう。エラーが発生していたソフトウェアを再度実行してください。これでエラーが出ず、無事に起動できれば成功です。
+
+パスワード認証エラー等が出た場合は dump 時に `--no-role-password` オプションを指定していたかを確認してみてください。
+
+##### 移行に失敗した場合は
+
+移行に失敗した場合は次の手順でもとに戻すことができます。
+
+まず `docker-compose down` でコンテナを閉じてから
+
+```
+# my-application-data を消去して作り直す
+docker volume rm my-application-data
+docker volume create --name=my-application-data
+
+# バックアップから復元
+docker run --rm -v database-backup:/from -v my-application-data:/to alpine cp -a /from/. /to
+```
+
+を実行します。これで my-application-data には古いバージョンのデータベースが復元されました。
+
+
+##### 移行に成功した場合の後片付け
+
+移行に成功したと判断できたら、以下のコマンドを実行することで
+
+- バックアップ用 volume
+- データベースの dump
+
+を削除することができます。
+
+```
+docker volume rm database-backup
+rm db.out
+```
