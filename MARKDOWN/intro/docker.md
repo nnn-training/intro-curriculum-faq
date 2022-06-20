@@ -81,7 +81,23 @@ Error response from daemon: dial unix docker.raw.sock: connect: connection refus
 
 ### → 原因1の解決方法
 
-アプリケーション一覧から Docker のアイコンをクリックし、起動してください。
+アプリケーション一覧から Docker のアイコンをクリックします。<br>
+Docker Desktop が起動した後、`docker` コマンドが使えるか確認してみてください。
+
+また、Docker が自動起動していない場合は、下記の手順で自動起動の設定ができます。
+
+まず、Docker Desktop の歯車アイコン(Settings)をクリックします。
+
+![DockerDesktopの設定を開く](/faq/images/intro/docker-settings-01.png) 
+
+「Settings」の画面が開いたら、<br>
+「Start Docker Desktop when you log in」をチェックし、<br>
+「Open Docker Dashboard at startup」のチェックを外します。<br>
+そして、「Apply & Restart」をクリックしてください。
+
+![設定を変更する](/faq/images/intro/docker-settings-02.png) 
+
+設定が終ったら、 PC を再起動した後にも `docker` コマンドが使えるか確認してみてください。
 
 <br>
 
