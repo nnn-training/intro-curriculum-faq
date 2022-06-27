@@ -9,7 +9,7 @@ title: Docker 関連のトラブル
 - [(1) Docker Desktop がインストールできない](#1)
 - [(2) docker-compose up -d（コンテナ起動）で失敗する](#2)
 - [(3) (winpty) docker-compose exec app bash で失敗する](#3)
-- [(4) PostgreSQL のバージョンを上げたらデータベースのコンテナの起動に失敗する](#4)
+- [(4) PostgreSQL のバージョンを上げるとデータベースのコンテナの起動に失敗する](#4)
 ---
 
 ## (1) Docker Desktop がインストールできない <a id="1"></a>
@@ -198,7 +198,7 @@ Dockerfile を一度変更したことがあるにもかかわらず、`docker-c
 `docker-compose up --build` 実行した後に、`(winpty) docker-compose exec app bash` を実行してみてください。
 
 
-## (4) PostgreSQL のバージョンを上げたらデータベースのコンテナの起動に失敗する <a id="4"></a>
+## (4) PostgreSQL のバージョンを上げるとデータベースのコンテナの起動に失敗する <a id="4"></a>
 
 ### 表記について
 
@@ -248,11 +248,40 @@ db_1   | 20XX-XX-XX XX:XX:XX.XXX JST [1] DETAIL:  The data directory was initial
 
 データベースの中身を失いたくない場合や、**Web サービスとして公開した場合**はデータベースのアップグレードをするようにしてください。
 
-#### 方法1: データベースを作り直す
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2"></td>
+      <th colspan="2">
+        docker volume コマンドで作成したボリュームを使っている
+      </td>
+    </tr>
+    <tr>
+      <th>はい</td>
+      <th>いいえ</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>データベースを作り直したい</th>
+      <td><a href="#4-1-2">方法1-2</a></td>
+      <td><a href="#4-1-1">方法1-1</a></td>
+    </tr>
+    <tr>
+      <th>データベースをアップグレードしたい</th>
+      <td><a href="#4-2">方法2</a></td>
+      <td><a href="#4-2">方法2</a> (★以外)</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 方法1-1: データベースを作り直す <a id="4-1-1"></a>
 
 データベースファイルのあるディレクトリを空にしてください。次回のコンテナ立ち上げ時に再び必要なファイルが作り直され、互換性の問題は解決するはずです。
 
-Docker の volume にデータベースファイルを設置している場合は以下のようにして volume を作り直してください。
+#### 方法1-2: データベースを作り直す (docker volume コマンドを使っている場合) <a id="4-1-2"></a>
+
+**docker volume コマンドにより作成したボリュームにデータベースファイルを設置している場合は**以下のようにして volume を作り直してください。
 
 まず、
 
@@ -281,9 +310,15 @@ docker-compose up -d
 コンテナに入れたら、エラーが発生したソフトウェアを再度実行してみましょう。
 実行時にエラーが起こらなければ成功です。
 
-#### 方法2: データベースをアップグレードする
+#### 方法2: データベースをアップグレードする <a id="4-2"></a>
 
-ここでは例として、Docker Volume 内のデータベースファイルを PostgreSQL 12 対応のものから 14 対応のものへアップグレードする方法を紹介します。Docker Volume を使用していない場合も以下と同様に dump の出力と読み込みをすることで移行できます。
+--- 
+
+注) 方法 2 内で用いられる「★」は `docker volume` コマンドにより作成したボリュームをデータベース用ボリュームとして用いている方向けの解説です。それ以外の方は読み飛ばして構いません。
+
+---
+
+ここでは例として、`docker volume` で作成したボリューム内のデータベースファイルを PostgreSQL 12 対応のものから 14 対応のものへアップグレードする方法を紹介します。docker volume コマンドにより作成したボリュームを使用していない場合も以下と同様に dump の出力と読み込みをすることで移行できます。
 
 まず、データベースの Dockerfile を
 
@@ -352,7 +387,7 @@ FROM postgres:14.2
 
 など移行先のバージョンに書き換えます。
 
-##### volume のバックアップ
+##### volume のバックアップ (★ docker volume コマンドを使っている場合)
 
 今 volume 内には古いデータベースが残っているため、このままコンテナを立ち上げると db コンテナの立ち上げに失敗してしまいます。そこで、volume を一度丸ごと削除して作り直します。
 
@@ -417,14 +452,27 @@ docker run --rm -v database-backup:/volume alpine ls /volume
 #### volume の消去とデータベースの読み込み
 
 さて、volume のバックアップが取れたので元の volume を作り直します。
-次のコマンドを実行してください。
+次のコマンドを実行してください(★)。
 
 ```
 docker volume rm my-application-data
 docker volume create --name=my-application-data
 ```
 
-volume を作りなおせたらコンテナを立ち上げます。先ほど Dockerfile を書き換えたのでビルドも忘れずにしましょう。
+`docker volume` によるボリュームを**用いていない**場合は適切なディレクトリの中身を削除してください。この際、ディレクトリのバックアップを忘れないようにしましょう。
+例えば `~/workspace/db/` にデータベースがあった場合、次のようにしてバックアップとディレクトリの中身の削除ができます。
+
+```
+cd ~/workspace
+
+# db を db-backup にリネーム
+mv db db-backup 
+
+# db フォルダを作り直す
+mkdir db
+```
+
+volume を作りなおせたらコンテナを立ち上げます。また、先ほど Dockerfile を書き換えたのでビルドも忘れずにしましょう。
 
 ```
 docker-compose up --build -d
@@ -464,6 +512,8 @@ db コンテナ内で実行する `psql` コマンドは PostgreSQL を実行す
 
 移行に失敗した場合は次の手順でもとに戻すことができます。
 
+###### ★ docker volume コマンドを使っている場合
+
 まず `docker-compose down` でコンテナを閉じてから
 
 ```
@@ -477,12 +527,25 @@ docker run --rm -v database-backup:/from -v my-application-data:/to alpine cp -a
 
 を実行します。これで my-application-data には古いバージョンのデータベースが復元されました。
 
+###### docker volume コマンドを使っていない場合
+
+元のデータベースをバックアップを、データベースを置いていたディレクトリに戻します。データベースの存在するディレクトリが `~/workspace/db/` 、バックアップが `~/workspace/db-backup/` にある場合は次のようにしてバックアップを復元できます。
+
+```
+cd ~/workspace
+
+# db を削除
+rm -rf db
+
+# db-backup を db にリネーム
+mv db-backup db
+```
 
 ##### 移行に成功した場合の後片付け
 
 移行に成功したと判断できたら、以下のコマンドを実行することで
 
-- バックアップ用 volume
+- バックアップ用 volume (★)
 - データベースの dump
 
 を削除することができます。
