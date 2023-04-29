@@ -1,4 +1,4 @@
-FROM node:18.15.0
+FROM node:14.15.4
 
 RUN apt-get update
 RUN apt-get install -y locales
