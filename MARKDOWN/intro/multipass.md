@@ -32,7 +32,7 @@ docker system prune --volumes
 
 ## Microsoft Hyper-V が『Unavailable on Home edition」が選択できない <a id="2"></a>
 
-[https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads) より VirtualBox をダウンロードとインストールをし、『Oracle VM VirtualBox』を選択して受講を進めてください。
+[https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads) より VirtualBox をダウンロード・インストールし、『Oracle VM VirtualBox』を選択して受講を進めてください。
 
 関連：[「Multipass のインストール」の節でまず、Microsoft Hyper-V が『Unavailable on Home edition」と書いてあり、選択できません](https://www.nnn.ed.nico/questions/29536)
 
