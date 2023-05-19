@@ -40,7 +40,7 @@ docker system prune --volumes
 
 仮想化環境が用意できていない可能性が高いです。
 
-* VirtualBox をダウンロードし、インストールしているか確認してください。
-  * していない場合は [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads) より ダウンロードしてインストールを済ませてください。
+* ・VirtualBox をダウンロードし、インストールしているか確認してください。
+  * ・していない場合は [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads) より ダウンロードしてインストールを済ませてください。
 
 関連：[Ubuntu の起動がうまくいきませんでした。(指定されたファイルが見つかりません。と表示されました)](https://www.nnn.ed.nico/questions/29528)
