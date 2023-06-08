@@ -48,7 +48,8 @@ docker system prune --volumes
 
 ## 「launch failed: The following errors occurred: Instance stopped while starting」というエラーが出る <a id="4"></a>
 
-お使いの環境がMacOSであるならMultipassのバグである可能性が高いです。
+お使いの環境がMacOSであるならUbuntu 22.04イメージのダウンロードに失敗している可能性が高いです。
+尚、このエラーは近日中に修正される予定です。
 
 まず、以下のコマンドを実行してVM インスタンスの状態を確認してください。
 
