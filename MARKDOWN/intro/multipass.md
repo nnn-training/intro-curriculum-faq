@@ -102,4 +102,4 @@ multipass launch 22.04 --name linux-study
 Launched: linux-study
 ```
 
- </div></details>
+</div></details>
