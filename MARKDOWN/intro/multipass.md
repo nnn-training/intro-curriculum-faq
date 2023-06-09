@@ -46,10 +46,14 @@ docker system prune --volumes
 
 関連：[Ubuntu の起動がうまくいきませんでした。(指定されたファイルが見つかりません。と表示されました)](https://www.nnn.ed.nico/questions/29528)
 
-## 「launch failed: The following errors occurred: Instance stopped while starting」というエラーが出る <a id="4"></a>
+## ~「launch failed: The following errors occurred: Instance stopped while starting」というエラーが出る~ <a id="4"></a>
+
+### ※このエラーは6月6日に公開されたUbuntu イメージにおいて修正されました。※
+もしこのようなエラーが出た際は折りたたんでありますのでこちらを参考にしてください。
+
+<details><summary>対処法</summary><div>
 
 お使いの環境がMacOSであるならUbuntu 22.04イメージのダウンロードに失敗している可能性が高いです。
-尚、このエラーは近日中に修正される予定です。
 
 まず、以下のコマンドを実行してVM インスタンスの状態を確認してください。
 
@@ -97,3 +101,5 @@ multipass launch 22.04 --name linux-study
 ```
 Launched: linux-study
 ```
+
+ </div></details>
