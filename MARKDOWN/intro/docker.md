@@ -10,6 +10,7 @@ title: Docker 関連のトラブル
 - [(2) docker-compose up -d（コンテナ起動）で失敗する](#2)
 - [(3) (winpty) docker-compose exec app bash で失敗する](#3)
 - [(4) PostgreSQL のバージョンを上げるとデータベースのコンテナの起動に失敗する](#4)
+- [(5) npx prisma で失敗する](#5)
 ---
 
 ## (1) Docker Desktop がインストールできない <a id="1"></a>
@@ -554,3 +555,60 @@ mv db-backup db
 docker volume rm database-backup
 rm db.out
 ```
+
+## (5) npx prisma で失敗する <a id="5"></a>
+
+### 問題詳細
+
+コンテナのコンソール上で、 `npx prisma init` といった `npx prisma` から始まるコマンドを実行すると、 `Segmentation fault` と表示されて動作しない。
+
+### 原因
+
+これは、 Node.js のバージョンが 18 以上であって、 mac OS と Intel の CPU を搭載する端末で確認されている不具合です。
+
+### →解決方法
+
+Node.js のバージョンを 16 に下げると `npx prisma` から始まるコマンドを実行できます。
+
+それでは、 Node.js のバージョンを下げるために、 `Dockerfile` の 1 行目を以下のように書き換えてください。
+
+```
+FROM --platform=linux/x86_64 node:16.14.2-slim
+```
+
+その後、 `Dockerfile` に行った変更を反映させるために、以下のコマンドを実行してください
+
+```
+docker compose build
+```
+
+これによって、 Docker イメージから作成しているので `Dockerfile` の変更が反映されるはずです。
+
+コンテナのターミナルに入って確かめましょう。
+
+```
+docker compose up -d
+docker compose exec app bash
+```
+
+以下のコマンドを実行して Node.js のバージョンを確認してください。
+
+```
+node -v
+```
+
+結果として以下のように v16 から始まるバージョンとなっていれば大丈夫です。
+
+```
+v16.14.2
+```
+
+それでは、先ほど実行できなかった以下のコマンドを実行して動作を確認してみてください。
+
+```
+npx prisma init
+```
+
+これでおそらく、 `Segmentation fault` と表示されて動作しない問題は解決するはずです。
+
+次の節に進んだ際に、新しくリポジトリをクローンする際は再度、先ほどの手順を行うことで `npx prisma` から始まるコマンドを実行できるはずです。
