@@ -24,6 +24,9 @@ const IndexLayout = ({ course, posts }: Props) => {
     case 'spapp':
       courseName = 'スマートフォンアプリ';
       break;
+    case 'unity':
+      courseName = 'Unity ゲーム開発';
+      break;
     case 'others':
       courseName = 'その他';
       break;

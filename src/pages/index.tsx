@@ -54,10 +54,19 @@ const TopPage = () => {
             </div>
 
             <div className="mt-3">
+              <Card hover="true" href="/unity" flex={false}>
+                <div className="">
+                  <h2 className="px-4 pt-3 pb-2 text-xl hover:text-gray-500 transition duration-300 pb-1 border-b">Unity ゲーム開発 →</h2>
+                  <p className="px-4 pb-4 pt-3 font-bold text-gray-500">Unity Hub や Unity Editor, プロジェクトの設定など、Unity ゲーム開発コースに関連するトラブル</p>
+                </div>
+              </Card>
+            </div>
+
+            <div className="mt-3">
               <Card hover="true" href="/others" flex={false}>
                 <div className="">
                   <h2 className="px-4 pt-3 pb-2 text-xl hover:text-gray-500 transition duration-300 pb-1 border-b">その他 →</h2>
-                  <p className="px-4 pb-4 pt-3 font-bold text-gray-500">ニコニコ動画再現コースや Unity コース、機械学習コースなどに関連するトラブル、その他のトラブル</p>
+                  <p className="px-4 pb-4 pt-3 font-bold text-gray-500">ニコニコ動画再現コースや機械学習コースなどに関連するトラブル、その他のトラブル</p>
                 </div>
               </Card>
             </div>
