@@ -1,7 +1,10 @@
+/**
+ * @type {import('next').NextConfig}
+*/
+
 require('dotenv').config();
 
 module.exports = {
-  webpack5: false,
   assetPrefix: process.env.GITHUB_PAGES ?
     '/faq'
     :

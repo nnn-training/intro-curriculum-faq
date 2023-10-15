@@ -81,16 +81,15 @@ const TopPage = () => {
               </span>
               で質問してみましょう！
               </p>
-            <p className="mt-3">質問するときは、
-              <ul className="list-disc ml-5">
-                <li>取り組んでいる<strong>テキストの節</strong></li>
-                <li>直面している<strong>トラブルの内容</strong></li>
-                <li>トラブルやソースコードの<strong>スクリーンショットやコピー&ペースト</strong></li>
-                <li>お使いの <strong>PC の環境</strong>（ OS やそのバージョン、セキュリティソフトの有無・種類）</li>
-                <li>これまでに<strong>試してみたこと</strong></li>
-              </ul>
-              を記載すると、解決する可能性が高まります。
-              </p>
+            <p className="mt-3">質問するときは、</p>
+            <ul className="list-disc ml-5">
+              <li>取り組んでいる<strong>テキストの節</strong></li>
+              <li>直面している<strong>トラブルの内容</strong></li>
+              <li>トラブルやソースコードの<strong>スクリーンショットやコピー&ペースト</strong></li>
+              <li>お使いの <strong>PC の環境</strong>（ OS やそのバージョン、セキュリティソフトの有無・種類）</li>
+              <li>これまでに<strong>試してみたこと</strong></li>
+            </ul>
+            <p className="mt-3">を記載すると、解決する可能性が高まります。</p>
           </div>
 
           <div className="flex mt-5">

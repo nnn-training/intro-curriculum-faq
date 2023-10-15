@@ -32,6 +32,16 @@ const IndexLayout = ({ course, posts }: Props) => {
       break;
   }
 
+  const navItems = posts.map(post => (
+    <div className="mb-2">
+      <Card href={post.path} hover={true} flex={false} >
+        <div className="p-4">
+          {post.title} →
+        </div>
+      </Card>
+    </div>
+  ))
+
   return <>
     <Layout>
       <main className="p-5 bg-blue-50 min-h-screen">
@@ -52,15 +62,7 @@ const IndexLayout = ({ course, posts }: Props) => {
           </div>
 
           <div className="mt-5">
-            {posts.map(post => (
-              <div className="mb-2">
-                <Card href={post.path} hover={true} flex={false} >
-                  <div className="p-4">
-                    {post.title} →
-                  </div>
-                </Card>
-              </div>
-            ))}
+            {navItems}
           </div>
 
         </div>
