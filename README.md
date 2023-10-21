@@ -135,6 +135,7 @@ $ cd faq
 ```
 
 Yarn を利用して Next.js アプリを起動します。
+推奨される Node.js のバージョンは　v18.18.2 です。
 
 ```bash
 $ yarn install
