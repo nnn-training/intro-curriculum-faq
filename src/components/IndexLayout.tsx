@@ -33,7 +33,7 @@ const IndexLayout = ({ course, posts }: Props) => {
   }
 
   const navItems = posts.map(post => (
-    <div className="mb-2">
+    <div className="mb-2" key={post.path}>
       <Card href={post.path} hover={true} flex={false} >
         <div className="p-4">
           {post.title} →
