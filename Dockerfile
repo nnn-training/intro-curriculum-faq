@@ -1,4 +1,4 @@
-FROM node:14.15.4
+FROM node:20.9.0
 
 RUN apt-get update
 RUN apt-get install -y locales

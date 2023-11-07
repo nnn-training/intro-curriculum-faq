@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { getPostBySlug, getAllPosts } from '../lib/api'
 import Head from 'next/head'
 import remark from 'remark'
 import remarkHtml from 'remark-html'
-import Layout from '../components/Layout';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/a11y-dark.css';
-import 'github-markdown-css';
+import Layout from '../components/Layout'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/a11y-dark.css'
+import 'github-markdown-css'
 
 type Props = {
   post: {

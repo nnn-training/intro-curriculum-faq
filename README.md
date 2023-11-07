@@ -109,6 +109,9 @@ public/images/intro/a.png
 2. ローカルの Node.js 環境を利用する方法
 
 ### 1. Docker を利用する方法
+
+**現在、こちらの方法は利用できませんので、 2 番の方法を利用してください。**
+
 お使いの PC（Windows または Mac）に Docker Desktop がインストールされている必要があります。 
 このリポジトリをフォークして、クローンします。
 
@@ -135,6 +138,7 @@ $ cd faq
 ```
 
 Yarn を利用して Next.js アプリを起動します。
+推奨される Node.js のバージョンは　v18.18.2 及び v20.9.0 です。
 
 ```bash
 $ yarn install
