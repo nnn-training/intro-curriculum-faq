@@ -6,11 +6,13 @@ title: Docker 関連のトラブル
 
 ---
 **目次**
+
 - [(1) Docker Desktop がインストールできない](#1)
 - [(2) docker-compose up -d（コンテナ起動）で失敗する](#2)
 - [(3) (winpty) docker-compose exec app bash で失敗する](#3)
 - [(4) PostgreSQL のバージョンを上げるとデータベースのコンテナの起動に失敗する](#4)
 - [(5) npx prisma で失敗する](#5)
+
 ---
 
 ## (1) Docker Desktop がインストールできない <a id="1"></a>
@@ -89,14 +91,14 @@ Docker Desktop が起動した後、`docker` コマンドが使えるか確認�
 
 まず、Docker Desktop の歯車アイコン(Settings)をクリックします。
 
-![DockerDesktopの設定を開く](/faq/images/intro/docker-settings-01.png) 
+![DockerDesktopの設定を開く](/faq/images/intro/docker-settings-01.png)
 
 「Settings」の画面が開いたら、<br>
 「Start Docker Desktop when you log in」をチェックし、<br>
 「Open Docker Dashboard at startup」のチェックを外します。<br>
 そして、「Apply & Restart」をクリックしてください。
 
-![設定を変更する](/faq/images/intro/docker-settings-02.png) 
+![設定を変更する](/faq/images/intro/docker-settings-02.png)
 
 設定が終ったら、 PC を再起動した後にも `docker` コマンドが使えるか確認してみてください。
 
@@ -197,7 +199,6 @@ Dockerfile を一度変更したことがあるにもかかわらず、`docker-c
 ### →解決方法
 
 `docker-compose up --build` 実行した後に、`(winpty) docker-compose exec app bash` を実行してみてください。
-
 
 ## (4) PostgreSQL のバージョンを上げるとデータベースのコンテナの起動に失敗する <a id="4"></a>
 
@@ -313,7 +314,7 @@ docker-compose up -d
 
 #### 方法2: データベースをアップグレードする <a id="4-2"></a>
 
---- 
+---
 
 注) 方法 2 内で用いられる「★」は `docker volume` コマンドにより作成したボリュームをデータベース用ボリュームとして用いている方向けの解説です。それ以外の方は読み飛ばして構いません。
 
@@ -501,7 +502,6 @@ db コンテナ内で実行する `psql` コマンドは PostgreSQL を実行す
 </details>
 
 これで読み込みが成功しているはずです。
-
 
 ##### 実行確認
 
