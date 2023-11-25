@@ -61,3 +61,8 @@ Name                      Type      Description
 ```
 
 以下の手順に沿って、ネットワークアダプター名を変更しましょう。
+
+まず、設定を開きます。
+
+![](./images/how-to-rename-na-1.png)
+

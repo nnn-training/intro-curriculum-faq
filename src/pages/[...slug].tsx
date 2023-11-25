@@ -8,6 +8,7 @@ import Layout from '../components/Layout'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/a11y-dark.css'
 import 'github-markdown-css'
+import { title } from 'process'
 
 type Props = {
   post: {
@@ -54,7 +55,8 @@ type Params = {
   }
 }
 
-const markdownToHtml = async (markdown: string) => {
+const markdownToHtml = async (markdown: string,topSlug: string) => {
+  markdown = markdown.replace(/\.\/images\//g,`/images/${topSlug}/`)
   const htmlResult = await remark()
     .use(remarkHtml,{sanitize:false})
     .process(markdown)
@@ -67,7 +69,7 @@ export const getStaticProps = async ({ params }: Params) => {
     'title',
     'content',
   ])
-  const content = await markdownToHtml((post.content as string) || '')
+  const content = await markdownToHtml((post.content as string) || '',params.slug[0] as string)
 
   return {
     props: {
