@@ -562,7 +562,7 @@ rm db.out
 
 コンテナのコンソール上で、 `npx prisma init` といった `npx prisma` から始まるコマンドを実行すると、 `Segmentation fault` と表示されて動作しない。
 
-または、Intel MacBook において、 Docker を利用していると、 Segmentation fault というエラーが表示される場合がある。
+または、Intel MacBook において、 Docker を利用していると、 `Segmentation fault` というエラーが表示される場合がある。
 
 ### 原因
 
@@ -575,7 +575,7 @@ Intel 製のチップを搭載した MacBook において、 Virtualization Fram
 
 ### →解決方法
 
-ファイル共有システムに利用している VirtioFS が Virtualization Framework を利用しています。
+ファイル共有システムに利用している VirtioFS が Virtualization Framework を利用しています。<br>
 ですから、ファイル共有システムを他のものへと変更することで、原因である Virtualization Framework を無効化する必要があります。
 
 そのために、Docker Desktop の設定を変更します。
@@ -592,7 +592,7 @@ Intel 製のチップを搭載した MacBook において、 Virtualization Fram
 
 ![Docker Desktop のホーム画面](./images/how-to-set-grpc-2.png)
 
-これを以下の画像の指示に沿って、「gRPC FUSE」に変更してください。
+これを以下の画像の指示に沿って、「gRPC FUSE」に変更し、右下の「Apply & restart」 をクリックしてください。
 
 ![Docker Desktop のホーム画面](./images/how-to-set-grpc-3.png)
 
