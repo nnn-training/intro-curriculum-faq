@@ -2,9 +2,8 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { getPostBySlug, getAllPosts } from '../lib/api'
 import Head from 'next/head'
+import {remark} from 'remark'
 import remarkHtml from 'remark-html'
-import {unified} from 'unified'
-import remarkParse from 'remark-parse'
 import Layout from '../components/Layout'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/a11y-dark.css'
@@ -56,8 +55,7 @@ type Params = {
 }
 
 const markdownToHtml = async (markdown: string) => {
-  const htmlResult = await unified()
-    .use(remarkParse)
+  const htmlResult = await remark()
     .use(remarkHtml,{sanitize:false})
     .process(markdown)
   return htmlResult.toString()

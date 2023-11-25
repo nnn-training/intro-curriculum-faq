@@ -22,7 +22,7 @@ Unity Hub を一旦終了してから、通常のユーザー権限で再度実�
   <li>Unity Hub のアイコンを右クリックして <strong>[Unity Hub を終了]</strong> をクリックします。</li>
 </ol>
 
-![](/faq/images/unity/unity-hub/unity-hub-icon.png)
+![](/faq/images/unity/unity-hub-icon.png)
 
 ## (2) Windows で Unity Editor のインストールに失敗する <a id="2"></a>
 
@@ -40,4 +40,4 @@ Unity Hub を一旦終了してから、管理者権限で再度実行してみ�
   <li><strong>[管理者として実行]</strong> をクリックします。</li>
 </ol>
 
-![](/faq/images/unity/unity-hub/run-as-administrator.png)
+![](/faq/images/unity/run-as-administrator.png)
