@@ -8,7 +8,6 @@ import Layout from '../components/Layout'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/a11y-dark.css'
 import 'github-markdown-css'
-import { title } from 'process'
 
 type Props = {
   post: {
