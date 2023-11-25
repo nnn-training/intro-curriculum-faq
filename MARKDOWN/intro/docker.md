@@ -11,7 +11,7 @@ title: Docker 関連のトラブル
 - [(2) docker-compose up -d（コンテナ起動）で失敗する](#2)
 - [(3) (winpty) docker-compose exec app bash で失敗する](#3)
 - [(4) PostgreSQL のバージョンを上げるとデータベースのコンテナの起動に失敗する](#4)
-- [(5) npx prisma で失敗する](#5)
+- [(5) npx prisma で失敗する。または Intel MacBook にて Docker を利用していると Segmentation fault と表示される。](#5)
 
 ---
 
@@ -556,59 +556,46 @@ docker volume rm database-backup
 rm db.out
 ```
 
-## (5) npx prisma で失敗する <a id="5"></a>
+## (5) npx prisma で失敗する。または Intel MacBook にて Docker を利用していると Segmentation fault と表示される。 <a id="5"></a>
 
 ### 問題詳細
 
 コンテナのコンソール上で、 `npx prisma init` といった `npx prisma` から始まるコマンドを実行すると、 `Segmentation fault` と表示されて動作しない。
 
+または、Intel MacBook において、 Docker を利用していると、 Segmentation fault というエラーが表示される場合がある。
+
 ### 原因
 
-これは、 Node.js のバージョンが 18 以上であって、 mac OS と Intel の CPU を搭載する端末で確認されている不具合です。
+Intel 製のチップを搭載した MacBook において、 Virtualization Framework というものが有効になっている際に起こる不具合です。
+これは、 Docker Desktop v19.0.0 以上で発生が確認されています。
+
+下記のサイトでこちらの不具合は把握されています。
+
+[Docker Desktop for mac での issue](https://github.com/docker/for-mac/issues/6824)
 
 ### →解決方法
 
-Node.js のバージョンを 16 に下げると `npx prisma` から始まるコマンドを実行できます。
+ファイル共有システムに利用している VirtioFS が Virtualization Framework を利用しています。
+ですから、ファイル共有システムを他のものへと変更することで、原因である Virtualization Framework を無効化する必要があります。
 
-それでは、 Node.js のバージョンを下げるために、 `Dockerfile` の 1 行目を以下のように書き換えてください。
+そのために、Docker Desktop の設定を変更します。
 
-```
-FROM --platform=linux/x86_64 node:16.14.2-slim
-```
+まず、 Docker Desktop を開いてください。
 
-その後、 `Dockerfile` に行った変更を反映させるために、以下のコマンドを実行してください
+開いたら、画像で示した右上にある、歯車マークをクリックしてください。
 
-```
-docker compose build
-```
+![Docker Desktop のホーム画面](./images/how-to-set-grpc-1.png)
 
-これによって、 Docker イメージから作成しているので `Dockerfile` の変更が反映されるはずです。
+クリックすると、以下のような設定画面が表示されます。
 
-コンテナのターミナルに入って確かめましょう。
+下の方へスクロールすると、画像で示したように、「Choose file sharing implementation for your containers」 と書かれた部分があります。
 
-```
-docker compose up -d
-docker compose exec app bash
-```
+![Docker Desktop のホーム画面](./images/how-to-set-grpc-2.png)
 
-以下のコマンドを実行して Node.js のバージョンを確認してください。
+これを以下の画像の指示に沿って、「gRPC FUSE」に変更してください。
 
-```
-node -v
-```
+![Docker Desktop のホーム画面](./images/how-to-set-grpc-3.png)
 
-結果として以下のように v16 から始まるバージョンとなっていれば大丈夫です。
+これによって Virtualization Framework を無効化でき、エラーが解消されるはずです。
 
-```
-v16.14.2
-```
-
-それでは、先ほど実行できなかった以下のコマンドを実行して動作を確認してみてください。
-
-```
-npx prisma init
-```
-
-これでおそらく、 `Segmentation fault` と表示されて動作しない問題は解決するはずです。
-
-次の節に進んだ際に、新しくリポジトリをクローンする際は再度、先ほどの手順を行うことで `npx prisma` から始まるコマンドを実行できるはずです。
+なお、以前より Docker を利用した際の挙動が重くなる可能性があります。
