@@ -51,7 +51,15 @@ module.exports = {
     )
     return config;
   },
-  assetPrefix: '/faq',
-  basePath: '/faq',
+  assetPrefix: process.env.GITHUB_PAGES ?
+    '/faq'
+    :
+    ''
+  ,
+  basePath: process.env.GITHUB_PAGES ?
+    '/faq'
+    :
+    ''
+  ,
   trailingSlash: true,
 };
