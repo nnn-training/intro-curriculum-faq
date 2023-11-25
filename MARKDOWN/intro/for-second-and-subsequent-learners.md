@@ -18,25 +18,25 @@ GitHubでは、1 つのリポジトリに対するフォークは一度しかで
 
 削除したいリポジトリの **Settings** を開きます。
 
-![Settingsをクリック](/faq/images/intro/delete_repository_01.png) 
+![Settingsをクリック](./images/delete_repository_01.png) 
 
 スクロールして一番下の **Danger Zone** の **Delete this repository** をクリックします。
 
-![Danger Zone の Delete this repository をクリック](/faq/images/intro/delete_repository_02.png) 
+![Danger Zone の Delete this repository をクリック](./images/delete_repository_02.png) 
 
 **Are you absolutely sure?** (訳：本当によろしいですか？)と表示されたら、 **please type** の後に表示されている太字の箇所を下の入力窓に入力します（コピーしても構いません）。  
 この画面では一度消したら元には戻せないこと、リポジトリ内の Wiki や issues なども全て削除され、コラボレータも外される旨が書かれています。
 
-![Please type の横の文字を入力](/faq/images/intro/delete_repository_03.png) 
+![Please type の横の文字を入力](./images/delete_repository_03.png) 
 
 入力したら、下の **I understand the consequences, delete this repository** (訳：この作業をしたらどうなるかを理解しました、削除します)をクリックします。
 
-![Danger Zone の Delete this repository をクリック](/faq/images/intro/delete_repository_04.png) 
+![Danger Zone の Delete this repository をクリック](./images/delete_repository_04.png) 
 
 削除すると認証ページに移るので認証が終わると、`Your repository "あなたのユーザ名/リポジトリ名" was successfuly deleted.` と表示されています。  
 これでリポジトリの削除ができました。
 
-![削除は成功しました](/faq/images/intro/delete_repository_05.png) 
+![削除は成功しました](./images/delete_repository_05.png) 
 
 
 # 【Windows 10】Hyper-Vを有効/無効にする方法 <a id="2"></a>

@@ -91,14 +91,14 @@ Docker Desktop が起動した後、`docker` コマンドが使えるか確認�
 
 まず、Docker Desktop の歯車アイコン(Settings)をクリックします。
 
-![DockerDesktopの設定を開く](/faq/images/intro/docker-settings-01.png)
+![DockerDesktopの設定を開く](./images/docker-settings-01.png)
 
 「Settings」の画面が開いたら、<br>
 「Start Docker Desktop when you log in」をチェックし、<br>
 「Open Docker Dashboard at startup」のチェックを外します。<br>
 そして、「Apply & Restart」をクリックしてください。
 
-![設定を変更する](/faq/images/intro/docker-settings-02.png)
+![設定を変更する](./images/docker-settings-02.png)
 
 設定が終ったら、 PC を再起動した後にも `docker` コマンドが使えるか確認してみてください。
 
