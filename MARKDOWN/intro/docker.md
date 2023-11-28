@@ -590,11 +590,18 @@ Intel 製のチップを搭載した MacBook において、 Virtualization Fram
 
 下の方へスクロールすると、画像で示したように、「Choose file sharing implementation for your containers」 と書かれた部分があります。
 
-![Docker Desktop のホーム画面](./images/how-to-set-grpc-2.png)
+![Docker Desktop の設定画面](./images/how-to-set-grpc-2.png)
 
-これを以下の画像の指示に沿って、「gRPC FUSE」に変更し、右下の「Apply & restart」 をクリックしてください。
+これを以下の画像の指示に沿って、「gRPC FUSE」に変更してください。
 
-![Docker Desktop のホーム画面](./images/how-to-set-grpc-3.png)
+![ファイル共有システムを gRPC FUSE に変更](./images/how-to-set-grpc-3.png)
+
+すると、上の「Use Virtualization framework」 と書かれた部分のチェックを変更できるようになります。<br>
+このチェックを外すことで、「Virtualization framework」を無効化できます。
+
+以下の画像を参考に、このチェックを外し、右下の「Apply & restart」 をクリックしてください。
+
+![Virtualization framework を無効化](./images/how-to-set-grpc-4.png)
 
 これによって Virtualization Framework を無効化でき、エラーが解消されるはずです。
 
