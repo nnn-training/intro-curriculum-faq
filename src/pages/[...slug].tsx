@@ -55,7 +55,7 @@ type Params = {
 }
 
 const markdownToHtml = async (markdown: string, topSlug: string) => {
-  const suffix = process.env.GITHUB_PAGES ? `/faq/images/${topSlug}` : `/images/${topSlug}/`
+  const suffix = process.env.GITHUB_PAGES ? `/faq/images/${topSlug}/` : `/images/${topSlug}/`
   markdown = markdown.replace(/\.\/images\//g, suffix)
   const htmlResult = await remark()
     .use(remarkHtml, { sanitize: false })
