@@ -2,9 +2,8 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { getPostBySlug, getAllPosts } from '../lib/api'
 import Head from 'next/head'
+import { remark } from 'remark'
 import remarkHtml from 'remark-html'
-import {unified} from 'unified'
-import remarkParse from 'remark-parse'
 import Layout from '../components/Layout'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/a11y-dark.css'
@@ -55,10 +54,11 @@ type Params = {
   }
 }
 
-const markdownToHtml = async (markdown: string) => {
-  const htmlResult = await unified()
-    .use(remarkParse)
-    .use(remarkHtml,{sanitize:false})
+const markdownToHtml = async (markdown: string, topSlug: string) => {
+  const suffix = process.env.GITHUB_PAGES ? `/faq/images/${topSlug}` : `/images/${topSlug}/`
+  markdown = markdown.replace(/\.\/images\//g, suffix)
+  const htmlResult = await remark()
+    .use(remarkHtml, { sanitize: false })
     .process(markdown)
   return htmlResult.toString()
 }
@@ -69,7 +69,7 @@ export const getStaticProps = async ({ params }: Params) => {
     'title',
     'content',
   ])
-  const content = await markdownToHtml((post.content as string) || '')
+  const content = await markdownToHtml((post.content as string) || '', params.slug[0] as string)
 
   return {
     props: {
