@@ -8,8 +8,8 @@ title: Docker 関連のトラブル
 **目次**
 
 - [(1) Docker Desktop がインストールできない](#1)
-- [(2) docker-compose up -d（コンテナ起動）で失敗する](#2)
-- [(3) (winpty) docker-compose exec app bash で失敗する](#3)
+- [(2) docker compose up -d（コンテナ起動）で失敗する](#2)
+- [(3) (winpty) docker compose exec app bash で失敗する](#3)
 - [(4) PostgreSQL のバージョンを上げるとデータベースのコンテナの起動に失敗する](#4)
 - [(5) npx prisma で失敗する。または Intel MacBook にて Docker を利用していると Segmentation fault と表示される。](#5)
 
@@ -42,7 +42,7 @@ OS のアップデートを試してください。
 
 <br>
 
-## (2) `docker-compose up -d` （コンテナ起動）で失敗する<a id="2"></a>
+## (2) `docker compose up -d` （コンテナ起動）で失敗する<a id="2"></a>
 
 ### 問題詳細
 
@@ -59,7 +59,7 @@ Docker Desktop のインストールには成功したものの、コンテナ�
 そもそも Docker Desktop が起動していない場合 `docker` コマンドを使用することはできません。  
 デフォルトでは Docker Desktop は PC 起動時に同時に立ち上がる設定になっていることが多いのですが、PC の状態により起動していないケースもあります。  
 
-Docker Desktop が起動している場合、タスクバー（Windows）やメニューバー（Mac）にクジラのアイコンが **止まって** 表示されます。  
+Docker Desktop が起動している場合、タスクバー（Windows）やメニューバー（Mac）にクジラのアイコンが **止まって** 表示されます。
 なお、クジラのアイコンが動いているのは起動中という意味です。  
 
 また、コマンドラインからも Docker Desktop のステータスを確認できます。
@@ -123,7 +123,7 @@ ERROR: for sample_app_1  Cannot start service app: driver failed programming ext
 どのディレクトリのコンテナが衝突しているかわかる場合は、当該ディレクトリに移動してコンテナを終了・破棄します。
 
 ```
-docker-compose down
+docker compose down
 ```
 
 わからない場合は、次のように**全てのコンテナを終了・破棄**します（コンテナは原則破棄するものなので、特に悪影響はありません）。
@@ -133,7 +133,7 @@ docker stop $(docker ps -aq)
 docker rm $(docker ps -aq)
 ```
 
-再度起動したいコンテナのディレクトリに移動して、`docker-compose up -d` を試してみてください。
+再度起動したいコンテナのディレクトリに移動して、`docker compose up -d` を試してみてください。
 
 <br>
 
@@ -182,29 +182,29 @@ Remove-Item Env:DOCKER_*
 
 と入力してください。
 
-## (3) `(winpty) docker-compose exec app bash` で失敗する <a id="3"></a>
+## (3) `(winpty) docker compose exec app bash` で失敗する <a id="3"></a>
 
 ### 表記について
 
-ここでは、表記を簡単にするため、**Windows でのコマンドと Mac でのコマンドをまとめて「`(winpty) docker-compose exec app bash`」と書きます**。そのため、Windows の場合は「`winpty docker-compose exec app bash`」に、Mac の場合は「`docker-compose exec app bash`」に、それぞれ読み替えてください。
+ここでは、表記を簡単にするため、**Windows でのコマンドと Mac でのコマンドをまとめて「`(winpty) docker compose exec app bash`」と書きます**。そのため、Windows の場合は「`winpty docker compose exec app bash`」に、Mac の場合は「`docker compose exec app bash`」に、それぞれ読み替えてください。
 
 ### 問題詳細
 
-`docker-compose up -d`（コンテナ起動）には成功したものの、`(winpty) docker-compose exec app bash` でコンテナに入れない場合があります。
+`docker compose up -d`（コンテナ起動）には成功したものの、`(winpty) docker compose exec app bash` でコンテナに入れない場合があります。
 
 ### 原因
 
-Dockerfile を一度変更したことがあるにもかかわらず、`docker-compose up --build` でイメージをビルドし直していない可能性があります。
+Dockerfile を一度変更したことがあるにもかかわらず、`docker compose build` でイメージをビルドし直していない可能性があります。
 
 ### →解決方法
 
-`docker-compose up --build` 実行した後に、`(winpty) docker-compose exec app bash` を実行してみてください。
+`docker compose up build` 実行した後に、`docker compose up -d`（コンテナ起動） を実行し、 `(winpty) docker compose exec app bash` を実行してみてください。
 
 ## (4) PostgreSQL のバージョンを上げるとデータベースのコンテナの起動に失敗する <a id="4"></a>
 
 ### 表記について
 
-ここでは、表記を簡単にするため、**Windows でのコマンドと Mac でのコマンドをまとめて「`(winpty) docker-compose exec app bash`」と書きます**。そのため、Windows の場合は「`winpty docker-compose exec app bash`」に、Mac の場合は「`docker-compose exec app bash`」に、それぞれ読み替えてください。
+ここでは、表記を簡単にするため、**Windows でのコマンドと Mac でのコマンドをまとめて「`(winpty) docker compose exec app bash`」と書きます**。そのため、Windows の場合は「`winpty docker compose exec app bash`」に、Mac の場合は「`docker compose exec app bash`」に、それぞれ読み替えてください。
 
 また、PostgreSQL のコンテナを「db コンテナ」と呼ぶことにします。
 
@@ -216,7 +216,7 @@ db コンテナにアクセスする際や、db コンテナにアクセスす�
 
 db コンテナが参照しているデータベースファイルのバージョンが古く、db コンテナの起動に失敗している可能性があります。
 
-docker-compose を使用している場合は、`docker-compose logs` でコンテナのログを確認することができます。おそらく
+docker compose を使用している場合は、`docker compose logs` でコンテナのログを確認することができます。おそらく
 
 ```
 Attaching to schedule-arranger_app_1, schedule-arranger_db_1
@@ -288,7 +288,7 @@ db_1   | 20XX-XX-XX XX:XX:XX.XXX JST [1] DETAIL:  The data directory was initial
 まず、
 
 ```
-docker-compose down
+docker compose down
 ```
 
 でコンテナを閉じます。次に
@@ -304,8 +304,8 @@ docker volume create --name=[データベースファイルのあるvolume名]
 Volume を作り直す、またはデータベースファイルのあるディレクトリを空にしたら
 
 ```
-docker-compose up -d
-(winpty) docker-compose exec app bash
+docker compose up -d
+(winpty) docker compose exec app bash
 ```
 
 と入力し app コンテナに再び入ります。
@@ -333,7 +333,7 @@ FROM postgres:12
 次に
 
 ```
-docker-compose up --build -d 
+docker compose up --build -d 
 ```
 
 でコンテナを立ち上げます。Dockerfile を書き換えたので `--build` オプションをつけてビルドしています。
@@ -341,7 +341,7 @@ docker-compose up --build -d
 立ち上げたら、次のコマンドで **dump** を出力してください。ここでの dump とは、データベースの中身を SQL コマンドを含んだスクリプトで表したもののことを言います。dump ファイル内のスクリプトを実行することで、現在のデータベースの情報を復元することができます。
 
 ```
-docker-compose exec db pg_dumpall --clean --no-role-passwords -U postgres > db.out
+docker compose exec db pg_dumpall --clean --no-role-passwords -U postgres > db.out
 ```
 
 このコマンドを実行することで、現在のディレクトリにデータベースの dump である db.out が生成されます。コマンドの実行に失敗した場合は、PostgreSQL のバージョンが volume 内のデータベースファイルと互換性のないものである可能性があります。
@@ -352,7 +352,7 @@ docker-compose exec db pg_dumpall --clean --no-role-passwords -U postgres > db.o
 ---
 
 ```
-docker-compose exec <service> <command>
+docker compose exec <service> <command>
 ```
 
 は `<service>` コンテナに入り、`<command>` コマンドを実行するコマンドです。ここでは db コンテナに入り、`pg_dumpall` コマンドを実行しています。
@@ -378,7 +378,7 @@ pg_dumpall --clean --no-role-passwords -U postgres
 次にデータベースのバージョンを上げるため、一度コンテナを閉じます。
 
 ```
-docker-compose down
+docker compose down
 ```
 
 db コンテナに使う Dockerfile の FROM の部分を
@@ -477,13 +477,13 @@ mkdir db
 volume を作りなおせたらコンテナを立ち上げます。また、先ほど Dockerfile を書き換えたのでビルドも忘れずにしましょう。
 
 ```
-docker-compose up --build -d
+docker compose up --build -d
 ```
 
 次に、データベースを新しいバージョンの PostgreSQL に読み込みます。次のコマンドを実行してください。
 
 ```
-cat db.out | docker-compose exec -T db psql -f - -U postgres
+cat db.out | docker compose exec -T db psql -f - -U postgres
 ```
 
 <details>
@@ -492,8 +492,8 @@ cat db.out | docker-compose exec -T db psql -f - -U postgres
 
 ---
 
-`cat db.out` で db.out の中身を標準出力します。これをパイプ (`|`) で `docker-compose` コマンドに渡します。
-`docker-compose exec` の `-T` は標準入力を受け取るために必要なオプションです。
+`cat db.out` で db.out の中身を標準出力します。これをパイプ (`|`) で `docker compose` コマンドに渡します。
+`docker compose exec` の `-T` は標準入力を受け取るために必要なオプションです。
 
 db コンテナ内で実行する `psql` コマンドは PostgreSQL を実行するコマンドです。`-f` オプションは読み込むファイルを指定するオプションです。指定したファイル名が `-` であるとき、標準入力を受け取ります。また、`-U` オプションでは読み込むときに使用するユーザ名を指定します。
 
@@ -515,7 +515,7 @@ db コンテナ内で実行する `psql` コマンドは PostgreSQL を実行す
 
 ###### ★ docker volume コマンドを使っている場合
 
-まず `docker-compose down` でコンテナを閉じてから
+まず `docker compose down` でコンテナを閉じてから
 
 ```
 # my-application-data を消去して作り直す
