@@ -12,6 +12,8 @@ title: Docker 関連のトラブル
 - [(3) (winpty) docker compose exec app bash で失敗する](#3)
 - [(4) PostgreSQL のバージョンを上げるとデータベースのコンテナの起動に失敗する](#4)
 - [(5) npx prisma で失敗する。または Intel MacBook にて Docker を利用していると Segmentation fault と表示される。](#5)
+- [(6) `yarn add prisma@4.11.0` で失敗する](#6)
+- [(7) M シリーズ Mac にて Docker コンテナ立ち上げ時に警告が出る](#7)
 
 ---
 
@@ -606,3 +608,84 @@ Intel 製のチップを搭載した MacBook において、 Virtualization Fram
 これによって Virtualization Framework を無効化でき、エラーが解消されるはずです。
 
 なお、以前より Docker を利用した際の挙動が重くなる可能性があります。
+
+## (6) `yarn add prisma@4.11.0` で失敗する<a id="6"></a>
+
+### 問題詳細
+Apple Silicon を搭載した M シリーズ MacBook において、 Docker コンテナ内で `yarn add prisma@4.11.0` を実行すると、以下のようなエラーが表示される場合があります。
+
+```sh
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+Segmentation fault
+```
+
+この場合、 Docker Desktop の設定を変更することで解決が望めます。
+
+### →解決方法
+
+Rosetta という機能を有効にするために、Docker Desktop の設定を変更します。
+
+以下のスクショで示された右上赤枠内の歯車アイコンをクリックしてください。
+
+![](./images/docker-enable-rosetta-01.png)
+
+次に、 [Use Rosetta for x86/amd64 emulation on Apple Silicon] と書かれた場所があると思います。<br>
+そのチェックボックスをクリックして有効化してください。
+
+![](./images/docker-enable-rosetta-02.png)
+
+チェックボックスにチェックが入りましたら、右下の [Apply & Restart] をクリックして、 Docker Desktop を再起動してください。
+
+![](./images/docker-enable-rosetta-03.png)
+
+これで Rosetta が有効になり、エラーが解消されるはずです。
+
+再起動後、 Docker コンテナを `docker compose up -d --build` コマンドで立ち上げてエラーが解消されたか確認してみてください。
+
+### 原因
+
+これは、 Docker イメージのアーキテクチャの違いによって起きるエラーです。
+
+教材では、 `Dockerfile` の 1 行目に `--platform=linux/x86_64` と書かれているかと思います。
+
+これが Docker イメージの OS とアーキテクチャを指定するための記述です。
+
+[Docker Hub の Node イメージのタグ一覧](https://hub.docker.com/_/node/tags)を見ると、`OS/ARCH` という部分があるかと思います。<br>
+実は Docker イメージは OS とアーキテクチャの組み合わせによって分けられており、この部分がそれを示しています。
+
+![](./images/docker-os-arch.png)
+
+`x86_64` というのは Intel CPU 用のアーキテクチャで、 `AMD64` とも言われるものです。一方で、M シリーズ Mac の CPU は ARM アーキテクチャを採用しています。<br>
+つまり、 ARM アーキテクチャで動く CPU 上で AMD64 アーキテクチャを動かさなければなりません。
+
+このための仕組みとしてエミュレータが用意されており、変換して動いてくれるようになっています。
+
+そして今回のエラーは、使っているエミュレータがうまく動作していないことが原因です。
+
+ですので、エミュレータを Rosetta というものに切り替えることで解消します。
+
+## (7) M シリーズ Mac にて Docker コンテナ立ち上げ時に警告が出る<a id="7"></a>
+
+### 問題詳細
+
+M シリーズ Mac にて Docker コンテナ立ち上げ時に以下のような警告が出る場合があります。
+
+```sh
+app The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+```
+
+### →解決方法
+
+これは致命的なエラーではないので、教材の進行に問題はありませんので無視しても大丈夫です。
+
+教材では、 `Dockerfile` の 1 行目に `--platform=linux/x86_64` と書かれた記述を削除し、 `docker compose up -d --build` コマンドを実行すれば解決するはずです。
+
+### 原因
+
+これは [(6) `yarn add prisma@4.11.0` で失敗する](#6)と同じことが原因です。
+
+使っているパソコンのアーキテクチャと呼ばれるものが教材で指定したアーキテクチャと異なるため、パフォーマンスが低下する可能性があり、それを警告として表示しているものです。
+
+M シリーズ Mac が搭載している Apple Silicon は CPU のアーキテクチャが ARM アーキテクチャですので、それに対応したイメージを使った方がパフォーマンスが向上します。
+
+`--platform=linux/x86_64` という記述をなくすと、自動的に Apple Silicon に対応したイメージを使ってくれるようになります。
