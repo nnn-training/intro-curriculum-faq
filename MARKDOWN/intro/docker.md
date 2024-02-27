@@ -633,7 +633,7 @@ Rosetta という機能を有効にするために、Docker Desktop の設定を
 
 ![](./images/docker-enable-rosetta-02.png)
 
-チェックボックスにチェックが入りましたら、右下の [Apply & Restart] をクリックして、 Docker Desktop を再起動してください。
+チェックボックスにチェックを入れたら、右下の「Apply & Restart」と書かれたボタンをクリックして、 Docker Desktop を再起動してください。
 
 ![](./images/docker-enable-rosetta-03.png)
 
