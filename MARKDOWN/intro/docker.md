@@ -645,7 +645,7 @@ Rosetta という機能を有効にするために、Docker Desktop の設定を
 
 これは、 Docker イメージのアーキテクチャの違いによって起きるエラーです。
 
-教材では、 `Dockerfile` の 1 行目に `--platform=linux/x86_64` と書かれているかと思います。
+教材では、 `Dockerfile` の 1 行目に `--platform=linux/x86_64` と書かれています。
 
 これが Docker イメージの OS とアーキテクチャを指定するための記述です。
 
