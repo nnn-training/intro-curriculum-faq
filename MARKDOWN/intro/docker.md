@@ -629,8 +629,7 @@ Rosetta という機能を有効にするために、Docker Desktop の設定を
 
 ![](./images/docker-enable-rosetta-01.png)
 
-次に、 [Use Rosetta for x86/amd64 emulation on Apple Silicon] と書かれた場所があると思います。<br>
-そのチェックボックスをクリックして有効化してください。
+次に、Use Rosetta for x86/amd64 emulation on Apple Silicon と書かれたチェックボックスにチェックを入れ、Rosetta を有効化してください。
 
 ![](./images/docker-enable-rosetta-02.png)
 
