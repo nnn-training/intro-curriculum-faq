@@ -625,7 +625,7 @@ Segmentation fault
 
 Rosetta という機能を有効にするために、Docker Desktop の設定を変更します。
 
-以下のスクショで示された右上赤枠内の歯車アイコンをクリックしてください。
+以下のスクリーンショットで示された右上赤枠内の歯車アイコンをクリックしてください。
 
 ![](./images/docker-enable-rosetta-01.png)
 
