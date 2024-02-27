@@ -677,7 +677,7 @@ app The requested image's platform (linux/amd64) does not match the detected hos
 
 これは致命的なエラーではないので、教材の進行に問題はありませんので無視しても大丈夫です。
 
-教材では、 `Dockerfile` の 1 行目に `--platform=linux/x86_64` と書かれた記述を削除し、 `docker compose up -d --build` コマンドを実行すれば解決するはずです。
+教材で提示された `Dockerfile` の 1 行目にある `--platform=linux/x86_64` を削除し、 `docker compose up -d --build` コマンドを実行すれば解決するはずです。
 
 ### 原因
 
