@@ -60,23 +60,21 @@ title: サンプルタイトル
 
 ### 画像の追加方法
 
-画像の追加は、`public/images` フォルダの中に置いてください。
+画像の追加は、`MARKDOWN/{course}/images` フォルダの中に置いてください。
 
 例えば、
 
 ```
-public/images/intro/a.png
+MARKDOWN/intro/images/a.png
 ```
 
 という画像を追加したときは、マークダウンで
 
 ```
-[画像名](/faq/images/intro/a.png)
+![代替テキスト](./images/a.png)
 ```
 
 のように書くことで表示されます。
-
-（つまり `public/` の部分を `/faq/` に置き換えたパスを書くことで表示されます。）
 
 ## このサイトの構成
 
