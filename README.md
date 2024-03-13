@@ -90,7 +90,7 @@ MARKDOWN/intro/images/a.png
 　│  └ ...
 　│
 　├ public/ 
-　│  └ /images   # 画像を追加するときはこのフォルダです
+　│  └ /images   # MARKDOWN/{course}/images の画像が出力されます（変更不要）
 　│
 　├ src/ 
 　│  └ ...       # Next.js アプリの実装です（変更不要）
