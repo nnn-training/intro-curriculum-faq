@@ -104,7 +104,7 @@ const TopPage = () => {
                 <div className="p-4 sm:flex items-center px-2">
                   <div className="pl-3 pb-2 sm:pl-2 sm:pb-0">
                     <div className="pt-0.5">
-                      <img src={process.env.GITHUB_PAGES ? "/faq/images/cc.png" : "/images/cc.png"} width={88} height={31} />
+                      <img src={process.env.NEXT_PUBLIC_GITHUB_PAGES ? "/faq/images/cc.png" : "/images/cc.png"} width={88} height={31} />
                     </div>
                   </div>
                   <div className="ml-3 sm:w-72 leading-5 ">
@@ -120,7 +120,7 @@ const TopPage = () => {
                 <div className="p-4 sm:flex items-center px-2">
                   <div className="pl-3 pb-2 sm:pl-2 sm:pb-0">
                     <div className="icon">
-                      <img src={process.env.GITHUB_PAGES ? "/faq/images/github.png" : "/images/github.png"} width={100} height={100} />
+                      <img src={process.env.NEXT_PUBLIC_GITHUB_PAGES ? "/faq/images/github.png" : "/images/github.png"} width={100} height={100} />
                     </div>
                   </div>
                   <div className=" ml-3 sm:w-96 leading-5 ">

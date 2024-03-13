@@ -51,12 +51,12 @@ module.exports = {
     )
     return config;
   },
-  assetPrefix: process.env.GITHUB_PAGES ?
+  assetPrefix: process.env.NEXT_PUBLIC_GITHUB_PAGES ?
     '/faq'
     :
     ''
   ,
-  basePath: process.env.GITHUB_PAGES ?
+  basePath: process.env.NEXT_PUBLIC_GITHUB_PAGES ?
     '/faq'
     :
     ''

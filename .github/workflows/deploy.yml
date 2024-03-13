@@ -19,7 +19,7 @@ jobs:
         run: |
           yarn build
         env:
-          GITHUB_PAGES: true
+          NEXT_PUBLIC_GITHUB_PAGES: true
       - name: generate sitemap
         run: |
           npx next-sitemap
