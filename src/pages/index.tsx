@@ -80,7 +80,7 @@ const TopPage = () => {
                 <Link href="https://www.nnn.ed.nico/questions">フォーラム Q&A </Link>
               </span>
               で質問してみましょう！
-              </p>
+            </p>
             <p className="mt-3">質問するときは、</p>
             <ul className="list-disc ml-5">
               <li>取り組んでいる<strong>テキストの節</strong></li>
