@@ -1,5 +1,5 @@
 ---
-title: Heroku 関連のトラブル
+title: Render 関連のトラブル
 ---
 
-# Heroku 関連のトラブル
+# Render 関連のトラブル
