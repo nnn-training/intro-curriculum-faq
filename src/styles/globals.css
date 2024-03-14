@@ -57,3 +57,9 @@ html {
   background-color: rgb(26, 26, 26) !important;
   color: white !important;
 }
+.markdown-body ol {
+  @apply list-decimal;
+}
+.markdown-body ul {
+  @apply list-disc;
+}
