@@ -53,7 +53,7 @@ title: VS Code のトラブル
 
 VS Code の `code` コマンドを設定する手順です。
 
-### macOS
+### macOS <a id="5-mac"></a>
 
 1. VS Code を起動します。
 1. <kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> を押して、コマンドパレットを開きます。
@@ -63,7 +63,7 @@ VS Code の `code` コマンドを設定する手順です。
     ![](./images/install_code_command_mac_ja.png)
 1. ターミナルを起動している場合は <code>PATH</code> の値を反映するため再起動してください。
 
-### Windows
+### Windows <a id="5-win"></a>
 
 Windows では、`code` コマンドは自動的にインストールされています。  
 しかし、何らかの理由で `code` コマンドを使用できない場合は次の手順で設定してください。
