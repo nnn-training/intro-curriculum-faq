@@ -31,7 +31,7 @@ const Layout: React.FunctionComponent<Props> = ({
               <img src={process.env.NEXT_PUBLIC_GITHUB_PAGES ? "/faq/images/zen_study.svg" : "/images/zen_study.svg"} width={150} height={46} alt="ZEN Study" />
             </div>
             <h1 className="leading-4 cursor-pointer">
-              <div>ZEN Study プログラミングコース</div>
+              <div>プログラミングコース</div>
               <div className="font-bold text-xl">FAQ・トラブルシューティング</div>
             </h1>
           </div>
