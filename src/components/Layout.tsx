@@ -21,8 +21,8 @@ const Layout: React.FunctionComponent<Props> = ({
       <div className="max-w-4xl mx-auto pt-5 pb-2 border-gray-100 border-b">
         <Link href="/">
           <div className="flex items-center">
-            <div className="icon ml-1 mb-0.5 cursor-pointer">
-              <img src={process.env.NEXT_PUBLIC_GITHUB_PAGES ? "/faq/images/nyobiko.png" : "/images/nyobiko.png"} width={100} height={100} />
+            <div className="ml-1 mb-0.5 cursor-pointer">
+              <img src={process.env.NEXT_PUBLIC_GITHUB_PAGES ? "/faq/images/zen_study.svg" : "/images/zen_study.svg"} width={150} height={46} alt="ZEN Study" />
             </div>
             <h1 className="leading-4 pl-4 cursor-pointer">
               <div className="ml-1">ZEN Study プログラミングコース</div>
