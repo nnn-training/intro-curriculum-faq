@@ -8,7 +8,7 @@ type Props = {
 
 const Layout: React.FunctionComponent<Props> = ({
   children,
-  title = 'FAQ・トラブルシューティング - N予備校プログラミングコース',
+  title = 'FAQ・トラブルシューティング - ZEN Study プログラミングコース',
 }) => (
   <div>
     <Head>
@@ -25,7 +25,7 @@ const Layout: React.FunctionComponent<Props> = ({
               <img src={process.env.NEXT_PUBLIC_GITHUB_PAGES ? "/faq/images/nyobiko.png" : "/images/nyobiko.png"} width={100} height={100} />
             </div>
             <h1 className="leading-4 pl-4 cursor-pointer">
-              <div className="ml-1">N予備校プログラミングコース</div>
+              <div className="ml-1">ZEN Study プログラミングコース</div>
               <div className="font-bold text-xl ml-1">FAQ・トラブルシューティング</div>
             </h1>
           </div>
@@ -42,7 +42,7 @@ const Layout: React.FunctionComponent<Props> = ({
         <div className="max-w-4xl mx-auto">
           <span>
             <Link href="/">
-              FAQ・トラブルシューティング - N予備校プログラミングコース
+              FAQ・トラブルシューティング - ZEN Study プログラミングコース
             </Link>
           </span>
         </div>
