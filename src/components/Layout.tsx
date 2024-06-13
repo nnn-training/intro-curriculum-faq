@@ -1,10 +1,12 @@
+import getConfig from 'next/config';
 import Head from 'next/head'
 import Link from 'next/link';
-import Image from 'next/image';
 
 type Props = {
   title?: string
 }
+
+const { publicRuntimeConfig } = getConfig();
 
 const Layout: React.FunctionComponent<Props> = ({
   children,
@@ -17,7 +19,7 @@ const Layout: React.FunctionComponent<Props> = ({
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       <link
         rel="icon"
-        href="/images/favicon.svg"
+        href={`${publicRuntimeConfig.basePath}/images/favicon.svg`}
         type="image/svg+xml"
         sizes="any"
       />
@@ -28,7 +30,7 @@ const Layout: React.FunctionComponent<Props> = ({
         <Link href="/">
           <div className="flex items-center">
             <div className="cursor-pointer">
-              <img src={process.env.NEXT_PUBLIC_GITHUB_PAGES ? "/faq/images/zen_study.svg" : "/images/zen_study.svg"} width={150} height={46} alt="ZEN Study" />
+              <img src={`${publicRuntimeConfig.basePath}/images/zen_study.svg`} width={150} height={46} alt="ZEN Study" />
             </div>
             <h1 className="leading-4 cursor-pointer">
               <div>プログラミングコース</div>
