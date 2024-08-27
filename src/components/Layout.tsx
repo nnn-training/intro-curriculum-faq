@@ -1,32 +1,40 @@
+import getConfig from 'next/config';
 import Head from 'next/head'
 import Link from 'next/link';
-import Image from 'next/image';
 
 type Props = {
   title?: string
 }
 
+const { publicRuntimeConfig } = getConfig();
+
 const Layout: React.FunctionComponent<Props> = ({
   children,
-  title = 'FAQ・トラブルシューティング - N予備校プログラミングコース',
+  title = 'FAQ・トラブルシューティング - ZEN Study プログラミングコース',
 }) => (
   <div>
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <link
+        rel="icon"
+        href={`${publicRuntimeConfig.basePath}/images/favicon.svg`}
+        type="image/svg+xml"
+        sizes="any"
+      />
     </Head>
 
     <header className="px-5 ">
       <div className="max-w-4xl mx-auto pt-5 pb-2 border-gray-100 border-b">
         <Link href="/">
           <div className="flex items-center">
-            <div className="icon ml-1 mb-0.5 cursor-pointer">
-              <img src={process.env.NEXT_PUBLIC_GITHUB_PAGES ? "/faq/images/nyobiko.png" : "/images/nyobiko.png"} width={100} height={100} />
+            <div className="cursor-pointer">
+              <img src={`${publicRuntimeConfig.basePath}/images/zen_study.svg`} width={150} height={46} alt="ZEN Study" />
             </div>
-            <h1 className="leading-4 pl-4 cursor-pointer">
-              <div className="ml-1">N予備校プログラミングコース</div>
-              <div className="font-bold text-xl ml-1">FAQ・トラブルシューティング</div>
+            <h1 className="leading-4 cursor-pointer">
+              <div>プログラミングコース</div>
+              <div className="font-bold text-xl">FAQ・トラブルシューティング</div>
             </h1>
           </div>
         </Link>
@@ -42,7 +50,7 @@ const Layout: React.FunctionComponent<Props> = ({
         <div className="max-w-4xl mx-auto">
           <span>
             <Link href="/">
-              FAQ・トラブルシューティング - N予備校プログラミングコース
+              FAQ・トラブルシューティング - ZEN Study プログラミングコース
             </Link>
           </span>
         </div>

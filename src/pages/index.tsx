@@ -11,11 +11,11 @@ const TopPage = () => {
           <div>
             <p>
               こちらは、<strong className="text-blue-600 hover:text-blue-400 trainsition duration-300">
-                <Link href="https://www.nnn.ed.nico/pages/programming/">N予備校プログラミングコース</Link></strong>
+                <Link href="https://www.nnn.ed.nico/pages/programming/">ZEN Study プログラミングコース</Link></strong>
               を受講中のみなさんに向けた FAQ（よくある質問）ページです。
             </p>
             <p>
-              このサイトでは、N予備校の
+              このサイトでは、ZEN Study の
               <span className="text-blue-600 hover:text-blue-400 transition duration-300">
                 <Link href="https://www.nnn.ed.nico/questions">フォーラム Q&A </Link>
               </span>
@@ -75,7 +75,7 @@ const TopPage = () => {
           <div>
             <h1 className="text-xl font-bold mt-5 py-2 px-3 bg-yellow-600 text-white">解決しないときは ……</h1>
             <p className="mt-3">このサイトに記載してある方法を試してもうまくいかない場合や、該当するページが存在しない場合は、
-              N予備校の
+              ZEN Study の
               <span className="text-blue-600 hover:text-blue-400 transition duration-300">
                 <Link href="https://www.nnn.ed.nico/questions">フォーラム Q&A </Link>
               </span>
@@ -94,7 +94,7 @@ const TopPage = () => {
 
           <div className="flex mt-5">
             <Link href="https://www.nnn.ed.nico/questions">
-              <div className="rounded-full bg-blue-700 py-2 px-5 text-white font-bold hover:bg-blue-800 cursor-pointer transition duration-300">N予備校フォーラム Q&A へ →</div>
+              <div className="rounded-full bg-blue-700 py-2 px-5 text-white font-bold hover:bg-blue-800 cursor-pointer transition duration-300">ZEN Study フォーラム Q&A へ →</div>
             </Link>
           </div>
 

@@ -61,6 +61,12 @@ module.exports = {
     :
     ''
   ,
+  publicRuntimeConfig: {
+    basePath: process.env.NEXT_PUBLIC_GITHUB_PAGES ?
+      '/faq'
+      :
+      ''
+  },
   trailingSlash: true,
   output: 'export',
 };
